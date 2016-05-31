@@ -1,0 +1,164 @@
+// Variables
+$blue-light: #1797d4;
+$blue-dark: #172d55;
+$dark-text: #333;
+
+html {
+	box-sizing: border-box;
+}
+
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+body {
+	background: url('../images/background.jpg') no-repeat;
+	background-size: cover;
+	font: 14px 'Roboto Condensed', Helvetica, Arial, sans-serif;
+
+	margin: 0;
+}
+
+/* Typography */
+
+/* Links */
+
+a {
+	text-decoration: none;
+	color: #fff;
+
+	transition: all .15s ease;
+
+	&:hover {
+		color: rgba(255,255,255,0.8);
+	}
+}
+
+/* Lists */
+
+ul {
+
+}
+
+nav {
+	ul {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+
+		li {
+			display: inline-block;
+		}
+	}
+}
+
+/* Buttons */
+
+.btn {
+	padding: 5px 12px;
+	text-shadow: rgba(0,0,0,0.25);
+}
+
+.btn-primary {
+	background: $blue-light;
+	color: #fff;
+	font-size: 16px;
+
+	&:hover {
+		background: $blue-dark;
+		color: #fff;
+	}
+}
+
+.btn-lg {
+	font-size: 20px;
+	padding: 10px 20px;
+}
+
+/* Wrapper */
+
+.wrapper {
+	height: 100vh;
+	margin: 0 10px;
+	position: relative;
+}
+
+/* Menu */
+
+.menu {
+	padding: 10px 10px 10px 0;
+
+	ul {
+
+	}
+
+	li {
+
+		margin: 0 4px;
+
+		&:first-child {
+			margin-left: 0;
+		}
+
+		a {
+			padding: 6px 18px;
+			border: 1px solid white;
+			display: block;
+
+			transition: background .15s;
+
+			&:hover {
+				color: #fff;
+				background: rgba(255,255,255,.15);
+			}
+		}
+	}
+}
+
+/* Main */
+
+.main {
+	text-align: center;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 90vh;
+	
+	header {
+		margin-bottom: 35px;
+		color: #fff;
+		text-shadow: 1px 1px rgba(0,0,0,0.4);
+
+		h1 {
+			font-size: 40px;
+			margin: 0 0 15px;
+		}
+
+		article {
+			font-size: 15px;
+		}
+	}
+}
+
+/* Footer */
+
+.footer {
+	position: absolute;
+	bottom: 10px;
+	right: 0;
+
+	li {
+		margin: 0 5px;
+	}
+
+	a {
+		padding: 4px;
+	}
+}
+
+/* Menu popup */
+
+
+/* Question popup */
