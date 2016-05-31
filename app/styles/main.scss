@@ -2,6 +2,8 @@
 $blue-light: #1797d4;
 $blue-dark: #172d55;
 $dark-text: #333;
+// Universal transition time, easing
+$trans-time-easing: .15s;
 
 html {
 	box-sizing: border-box;
@@ -15,11 +17,9 @@ body {
 	background: url('../images/background.jpg') no-repeat;
 	background-size: cover;
 	font: 14px 'Roboto Condensed', Helvetica, Arial, sans-serif;
-
+	color: #fff;
 	margin: 0;
 }
-
-/* Typography */
 
 /* Links */
 
@@ -27,7 +27,7 @@ a {
 	text-decoration: none;
 	color: #fff;
 
-	transition: all .15s ease;
+	transition: all $trans-time-easing;
 
 	&:hover {
 		color: rgba(255,255,255,0.8);
@@ -102,10 +102,10 @@ nav {
 
 		a {
 			padding: 6px 18px;
-			border: 1px solid white;
+			border: 1px solid rgba(255,255,255,0.5);
 			display: block;
 
-			transition: background .15s;
+			transition: background $trans-time-easing;
 
 			&:hover {
 				color: #fff;
@@ -118,7 +118,6 @@ nav {
 /* Main */
 
 .main {
-	text-align: center;
 	display: flex;
 	flex: 1;
 	flex-direction: column;
@@ -126,7 +125,8 @@ nav {
 	align-items: center;
 	height: 90vh;
 	
-	header {
+	.intro-text {
+		text-align: center;
 		margin-bottom: 35px;
 		color: #fff;
 		text-shadow: 1px 1px rgba(0,0,0,0.4);
@@ -162,3 +162,73 @@ nav {
 
 
 /* Question popup */
+
+.question-popup {
+	max-width: 50%;
+	width: 100%;
+	padding: 25px;
+
+	background: rgba(23, 45, 85, 0.35);
+
+	h2, h3, h4, h5, h6 {
+		margin-top: 0;
+	}
+
+	// Question title
+	header {
+		position: relative;
+
+		h2 {
+			margin-bottom: 20px;
+			text-shadow: 1px 1px rgba(0,0,0,0.5);
+		}
+
+		.question-count {
+			position: absolute;
+			right: -18px;
+			top: -20px;
+			font-size: 16px;
+			text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+		}
+	}
+
+	// Answers list
+	.answers-list {
+		ul {
+			padding: 0;
+			margin: 0;
+		}
+
+		li {
+			display: block;
+			font-size: 16px;
+			cursor: pointer;
+			padding: 6px;
+			margin: 2px 0;
+
+			counter-increment: answer-number;
+			transition: background $trans-time-easing;
+
+			&:before {
+				content: counter(answer-number) ". ";
+			}
+
+			&:hover {
+				background: rgba(23, 151, 212, 0.75);
+			}
+		}
+	}
+
+	// Footer, buttons
+	footer {
+		margin-top: 20px;
+	}
+
+	.go-prev-question {
+		float: left;
+	}
+
+	.go-next-question {
+		float: right;
+	}
+}
