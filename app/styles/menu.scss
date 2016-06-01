@@ -1,0 +1,31 @@
+/* Menu */
+
+.menu {
+	padding: 10px 10px 10px 0;
+
+	ul {
+
+	}
+
+	li {
+
+		margin: 0 4px;
+
+		&:first-child {
+			margin-left: 0;
+		}
+
+		a {
+			padding: 6px 18px;
+			border: 1px solid rgba(255,255,255,0.5);
+			display: block;
+
+			transition: background $trans-time-easing;
+
+			&:hover {
+				color: #fff;
+				background: rgba(255,255,255,.15);
+			}
+		}
+	}
+}

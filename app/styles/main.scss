@@ -1,9 +1,4 @@
-// Variables
-$blue-light: #1797d4;
-$blue-dark: #172d55;
-$dark-text: #333;
-// Universal transition time, easing
-$trans-time-easing: .15s;
+@import 'variables';
 
 html {
 	box-sizing: border-box;
@@ -16,7 +11,7 @@ html {
 body {
 	background: url('../images/background.jpg') no-repeat;
 	background-size: cover;
-	font: 14px 'Roboto Condensed', Helvetica, Arial, sans-serif;
+	font: 14px $font-family;
 	color: #fff;
 	margin: 0;
 }
@@ -52,27 +47,39 @@ nav {
 	}
 }
 
-/* Buttons */
+/* Forms */
 
-.btn {
-	padding: 5px 12px;
-	text-shadow: rgba(0,0,0,0.25);
-}
+form {
+	input, textarea {
+		font-family: $font-family;
+		padding: 8px;
+		border: 2px solid #ececec;
+		color: #333;
 
-.btn-primary {
-	background: $blue-light;
-	color: #fff;
-	font-size: 16px;
+		transition: border .15s;
 
-	&:hover {
-		background: $blue-dark;
-		color: #fff;
+		&:focus {
+			border-color: $blue-light;
+			outline: 0;
+		}
 	}
-}
 
-.btn-lg {
-	font-size: 20px;
-	padding: 10px 20px;
+	input {
+		
+	}
+
+	.half-size {
+		width: 49%;
+
+		&:first-child {
+			margin-right: 2%;
+		}
+	}
+
+	textarea {
+		width: 100%;
+		min-height: 150px;
+	}
 }
 
 /* Wrapper */
@@ -81,38 +88,6 @@ nav {
 	height: 100vh;
 	margin: 0 10px;
 	position: relative;
-}
-
-/* Menu */
-
-.menu {
-	padding: 10px 10px 10px 0;
-
-	ul {
-
-	}
-
-	li {
-
-		margin: 0 4px;
-
-		&:first-child {
-			margin-left: 0;
-		}
-
-		a {
-			padding: 6px 18px;
-			border: 1px solid rgba(255,255,255,0.5);
-			display: block;
-
-			transition: background $trans-time-easing;
-
-			&:hover {
-				color: #fff;
-				background: rgba(255,255,255,.15);
-			}
-		}
-	}
 }
 
 /* Main */
@@ -142,93 +117,9 @@ nav {
 	}
 }
 
-/* Footer */
-
-.footer {
-	position: absolute;
-	bottom: 10px;
-	right: 0;
-
-	li {
-		margin: 0 5px;
-	}
-
-	a {
-		padding: 4px;
-	}
-}
-
-/* Menu popup */
-
-
-/* Question popup */
-
-.question-popup {
-	max-width: 50%;
-	width: 100%;
-	padding: 25px;
-
-	background: rgba(23, 45, 85, 0.35);
-
-	h2, h3, h4, h5, h6 {
-		margin-top: 0;
-	}
-
-	// Question title
-	header {
-		position: relative;
-
-		h2 {
-			margin-bottom: 20px;
-			text-shadow: 1px 1px rgba(0,0,0,0.5);
-		}
-
-		.question-count {
-			position: absolute;
-			right: -18px;
-			top: -20px;
-			font-size: 16px;
-			text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
-		}
-	}
-
-	// Answers list
-	.answers-list {
-		ul {
-			padding: 0;
-			margin: 0;
-		}
-
-		li {
-			display: block;
-			font-size: 16px;
-			cursor: pointer;
-			padding: 6px;
-			margin: 2px 0;
-
-			counter-increment: answer-number;
-			transition: background $trans-time-easing;
-
-			&:before {
-				content: counter(answer-number) ". ";
-			}
-
-			&:hover {
-				background: rgba(23, 151, 212, 0.75);
-			}
-		}
-	}
-
-	// Footer, buttons
-	footer {
-		margin-top: 20px;
-	}
-
-	.go-prev-question {
-		float: left;
-	}
-
-	.go-next-question {
-		float: right;
-	}
-}
+@import 'buttons';
+@import 'menu';
+@import 'footer';
+@import 'question-box';
+@import 'popup';
+@import 'helpers';

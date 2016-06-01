@@ -1,0 +1,71 @@
+/* Question box */
+
+.question-box {
+	max-width: 45%;
+	width: 100%;
+	padding: 25px;
+
+	background: rgba(23, 45, 85, 0.35);
+
+	h2, h3, h4, h5, h6 {
+		margin-top: 0;
+	}
+
+	// Question title
+	header {
+		position: relative;
+
+		h2 {
+			margin-bottom: 20px;
+			text-shadow: 1px 1px rgba(0,0,0,0.5);
+		}
+
+		.question-count {
+			position: absolute;
+			right: -18px;
+			top: -20px;
+			font-size: 16px;
+			text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+		}
+	}
+
+	// Answers list
+	.answers-list {
+		ul {
+			padding: 0;
+			margin: 0;
+		}
+
+		li {
+			display: block;
+			font-size: 16px;
+			cursor: pointer;
+			padding: 6px;
+			margin: 2px 0;
+
+			counter-increment: answer-number;
+			transition: background $trans-time-easing;
+
+			&:before {
+				content: counter(answer-number) ". ";
+			}
+
+			&:hover {
+				background: rgba(23, 151, 212, 0.75);
+			}
+		}
+	}
+
+	// Footer, buttons
+	footer {
+		margin-top: 20px;
+	}
+
+	.go-prev-question {
+		float: left;
+	}
+
+	.go-next-question {
+		float: right;
+	}
+}
