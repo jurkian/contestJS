@@ -10,11 +10,17 @@ html {
 
 body {
 	background: url('../images/background.jpg') no-repeat;
+	background-attachment: fixed;
 	background-size: cover;
 	font: 14px $font-family;
 	color: #fff;
 	margin: 0;
 }
+
+/* Selection */
+
+::-moz-selection { background: #FFFACD; color: #333; }
+::selection { background: #FFFACD; color: #333; }
 
 /* Links */
 
@@ -85,7 +91,7 @@ form {
 /* Wrapper */
 
 .wrapper {
-	height: 100vh;
+	min-height: 100vh;
 	margin: 0 10px;
 	position: relative;
 }
@@ -110,10 +116,26 @@ form {
 			font-size: 40px;
 			margin: 0 0 15px;
 		}
+	}
 
-		article {
-			font-size: 15px;
-		}
+	& > article {
+		font-size: 15px;
+	}
+}
+
+.single-article {
+	background: rgba(23, 45, 85, 0.9);
+	max-width: 80%;
+	height: auto;
+	margin: 30px auto 10px;
+	padding: 50px;
+
+	.intro-text {
+		margin-bottom: 15px;
+	}
+
+	article {
+		text-align: left;
 	}
 }
 
