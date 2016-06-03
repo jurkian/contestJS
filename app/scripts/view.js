@@ -42,6 +42,7 @@ var render = function(html) {
 	s.container.insertAdjacentHTML('beforeend', html);
 };
 
+// Load view
 var load = function(view, callback) {
 	getTemplate(view, function(html) {
 		render(html);
@@ -52,6 +53,7 @@ var load = function(view, callback) {
 	});
 };
 
+// Load view with transition
 var loadTransition = function(view, before, callback) {
 
 	// Reset transition classes
@@ -85,6 +87,7 @@ var loadTransition = function(view, before, callback) {
 
 module.exports = {
 	init: init,
+	getTemplate: getTemplate,
 	load: load,
 	loadTransition: loadTransition
 };
