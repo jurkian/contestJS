@@ -10,6 +10,7 @@
     "babelify": "^7.3.0",
     "browser-sync": "^2.12.10",
     "browserify": "^13.0.1",
+    "browserify-shim": "^3.8.12",
     "del": "^2.2.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.0.1",
@@ -44,6 +45,13 @@
     }
   },
   "dependencies": {
-    "normalize.css": "^4.1.1"
+    "normalize.css": "^4.1.1",
+    "page": "^1.7.1"
+  },
+  "browserify-shim": {
+    "jquery": "global:$"
+  },
+  "browserify": {
+    "transform": [ "browserify-shim" ]
   }
 }

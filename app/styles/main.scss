@@ -12,7 +12,7 @@ body {
 	background: url('../images/background.jpg') no-repeat;
 	background-attachment: fixed;
 	background-size: cover;
-	font: 14px $font-family;
+	font: $font-size $font-family;
 	color: #fff;
 	margin: 0;
 }
@@ -57,7 +57,7 @@ nav {
 
 form {
 	input, textarea {
-		font-family: $font-family;
+		font: $font-size $font-family;
 		padding: 8px;
 		border: 2px solid #ececec;
 		color: #333;
@@ -88,57 +88,7 @@ form {
 	}
 }
 
-/* Wrapper */
-
-.wrapper {
-	min-height: 100vh;
-	margin: 0 10px;
-	position: relative;
-}
-
-/* Main */
-
-.main {
-	display: flex;
-	flex: 1;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	height: 90vh;
-	
-	.intro-text {
-		text-align: center;
-		margin-bottom: 35px;
-		color: #fff;
-		text-shadow: 1px 1px rgba(0,0,0,0.4);
-
-		h1 {
-			font-size: 40px;
-			margin: 0 0 15px;
-		}
-	}
-
-	& > article {
-		font-size: 15px;
-	}
-}
-
-.single-article {
-	background: rgba(23, 45, 85, 0.9);
-	max-width: 80%;
-	height: auto;
-	margin: 30px auto 10px;
-	padding: 50px;
-
-	.intro-text {
-		margin-bottom: 15px;
-	}
-
-	article {
-		text-align: left;
-	}
-}
-
+@import 'views';
 @import 'buttons';
 @import 'menu';
 @import 'footer';
