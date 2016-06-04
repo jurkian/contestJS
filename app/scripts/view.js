@@ -1,4 +1,4 @@
-var onCSSAnimationEnd = require('./css-animation-helper.js');
+var onCSSAnimationEnd = require('./jquery.oncssanimationend.js');
 
 // Settings
 var s = {
@@ -89,5 +89,6 @@ module.exports = {
 	init: init,
 	getTemplate: getTemplate,
 	load: load,
+	render: render,
 	loadTransition: loadTransition
 };

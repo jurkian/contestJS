@@ -1,5 +1,7 @@
 var View = require('./view.js'),
-	Popup = require('./popup.js');
+	Popup = require('./popup.js'),
+	Questions = require('./questions.js'),
+	Mustache = require('mustache');
 
 var init = function(ctx, next) {
 	next();
@@ -21,21 +23,49 @@ var help = function() {
 	View.load('/views/help.html');
 };
 
-var about = function(ctx, next) {
+var about = function() {
 	Popup.showTpl('/views/popup/about.html');
 };
 
-var contact = function(ctx, next) {
+var contact = function() {
 	Popup.showTpl('/views/popup/contact.html');
 };
 
 var question = function(ctx, next) {
-	var id = ctx.params.id;
+	var urlId = parseInt(ctx.params.id, 10);
 
-	if (!isNaN(parseInt(id, 10))) {
-		View.load('/views/question.html');
-	} else if (id === 'final') {
-		View.load('/views/form.html');
+	if (!isNaN(urlId)) {
+		Questions.getCurrent(urlId, function(currentQ) {
+
+			// Single question
+			if (currentQ.type === 'question') {
+
+				View.getTemplate('/views/question.mst', function(html) {
+
+					// Prepare Mustache data
+					var view = {
+					  title: currentQ.title,
+					  currentNumber: urlId,
+					  totalNumber: currentQ.count,
+					  answers: currentQ.answers,
+					  isPrevious: currentQ.isPrevious,
+					  isNext: currentQ.isNext,
+					  previousId: currentQ.previousId,
+					  nextId: currentQ.nextId
+					};
+
+					var output = Mustache.render(html, view);
+					View.render(output);
+				});
+
+			} else if (currentQ.type === 'form') {
+
+				// Single form
+				View.getTemplate('/views/form.html', function(output) {
+					View.render(output);
+				});
+			}
+		});
 	}
 };
 
