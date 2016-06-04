@@ -1,4 +1,5 @@
-var onCSSAnimationEnd = require('./jquery.oncssanimationend.js');
+var $ = require('jquery'),
+	onCSSAnimationEnd = require('./jquery.oncssanimationend.js');
 
 // Settings
 var s = {
@@ -18,28 +19,18 @@ var getTemplate = function(url, callback) {
 		}
 	}
 
-	var request = new XMLHttpRequest();
+	$.get(url, function(data) {
+		s.cache[url] = data;
 
-	request.onreadystatechange = function() {
-		if (request.readyState === 4 && request.status === 200) {
-
-			var data = request.responseText;
-			s.cache[url] = data;
-
-			if (typeof callback === 'function') {
-				callback(data);
-			}
+		if (typeof callback === 'function') {
+			callback(data);
 		}
-	};
-
-	request.open('GET', url, true);
-	request.send();
+	});
 };
 
 // Render the view
 var render = function(html) {
-	s.container.innerHTML = '';
-	s.container.insertAdjacentHTML('beforeend', html);
+	s.container.empty().append(html);
 };
 
 // Load view
@@ -56,11 +47,11 @@ var load = function(view, callback) {
 // Load view with transition
 var loadTransition = function(view, before, callback) {
 
-	// Reset transition classes
-	s.container.classList.remove('view-out', 'view-in');
+	// Reset transition classes and hide view
+	s.container.removeClass('view-out view-in');
 
 	// Hide view
-	s.container.classList.add('view-out');
+	s.container.addClass('view-out');
 	s.container.onCSSAnimationEnd(function() {
 
 		// Do things before showing new view
@@ -73,9 +64,9 @@ var loadTransition = function(view, before, callback) {
 			}
 
 			// Start showing new view
-			s.container.classList.add('view-in');
+			s.container.addClass('view-in');
 			s.container.onCSSAnimationEnd(function() {
-				s.container.classList.remove('view-out', 'view-in');
+				s.container.removeClass('view-out view-in');
 
 				if (typeof callback === 'function') {
 					callback();

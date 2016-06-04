@@ -1,10 +1,11 @@
-var View = require('./view.js');
+var $ = require('jquery'),
+	View = require('./view.js');
 
 // Settings
 var s = {
-	popupOverlayEl: document.querySelector('.popup-overlay'),
-	popupEl: document.querySelector('.popup'),
-	closeEl: document.querySelector('.popup .close'),
+	popupOverlayEl: $('.popup-overlay'),
+	popupEl: $('.popup'),
+	closeEl: $('.popup').find('.close'),
 	openedClass: 'opened'
 };
 
@@ -13,8 +14,8 @@ var popupBtn = {},
 	popupContent = {};
 
 var close = function() {
-	s.popupOverlayEl.classList.remove(s.openedClass);
-	s.popupEl.classList.remove(s.openedClass);
+	s.popupOverlayEl.removeClass(s.openedClass);
+	s.popupEl.removeClass(s.openedClass);
 };
 
 var show = function() {
@@ -23,16 +24,15 @@ var show = function() {
 	close();
 
 	// Add classes
-	s.popupOverlayEl.classList.add(s.openedClass);
-	s.popupEl.classList.add(s.openedClass);
+	s.popupOverlayEl.addClass(s.openedClass);
+	s.popupEl.addClass(s.openedClass);
 };
 
 var showTpl = function(template) {
 	
 	// Get template
 	View.getTemplate(template, function(html) {
-		popupContent.innerHTML = '';
-		popupContent.insertAdjacentHTML('beforeend', html);
+		popupContent.empty().append(html);
 
 		// Popup is ready - show it
 		show();
@@ -43,25 +43,25 @@ var init = function(config) {
 	s = config;
 
 	// Set local vars
-	popupBtn = s.popupEl.querySelector('.close-btn') || null;
-	popupContent = s.popupEl.querySelector('.popup-content') || null;
+	popupBtn = s.popupEl.find('.close-btn') || null;
+	popupContent = s.popupEl.find('.popup-content') || null;
 
 	// Handle popup close events
 	// On button click
 	if (popupBtn !== null) {
-		popupBtn.addEventListener('click', close, false);
+		popupBtn.on('click', close);
 	}
 
 	// On outside popup click
-	s.popupOverlayEl.addEventListener('click', close, false);
+	s.popupOverlayEl.on('click', close);
 
 	// On "x" click
-	s.closeEl.addEventListener('click', close, false);
+	s.closeEl.on('click', close);
 
 	// But do nothing when clicked inside popup
-	s.popupEl.addEventListener('click', function(e) {
+	s.popupEl.on('click', function(e) {
 		e.stopPropagation();
-	}, false);
+	});
 };
 
 module.exports = {

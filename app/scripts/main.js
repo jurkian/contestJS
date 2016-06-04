@@ -12,14 +12,14 @@ var init = function() {
 
 	// Initialize Popup
 	Popup.init({
-		popupOverlayEl: document.querySelector('.popup-overlay'),
-		popupEl: document.querySelector('.popup'),
-		closeEl: document.querySelector('.popup .close'),
+		popupOverlayEl: $('.popup-overlay'),
+		popupEl: $('.popup'),
+		closeEl: $('.popup').find('.close'),
 		openedClass: 'opened'
 	});
 
 	// Routing
-	View.init(document.querySelector('section.view'));
+	View.init($('section.view'));
 	Page.base('/');
 
 	Page('*', Route.init);
