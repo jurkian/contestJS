@@ -1,5 +1,6 @@
 var $ = require('jquery'),
-	onCSSAnimationEnd = require('./jquery.oncssanimationend.js');
+	onCSSAnimationEnd = require('./jquery.oncssanimationend.js'),
+	Mustache = require('mustache');
 
 // Settings
 var s = {
@@ -45,7 +46,7 @@ var load = function(view, callback) {
 };
 
 // Load view with transition
-var loadTransition = function(view, before, callback) {
+var loadTransition = function(view, customRender, callback) {
 
 	// Reset transition classes and hide view
 	s.container.removeClass('view-out visuallyhidden');
@@ -59,11 +60,12 @@ var loadTransition = function(view, before, callback) {
 
 		// Do things before showing new view
 		getTemplate(view, function(html) {
-			render(html);
 
-			// Before new view is shown
-			if (typeof before === 'function') {
-				before();
+			// Use the custom function to render view
+			if (typeof customRender === 'function') {
+				customRender(html);
+			} else {
+				render(html);
 			}
 
 			// Start showing new view
@@ -79,10 +81,27 @@ var loadTransition = function(view, before, callback) {
 	});
 };
 
+var renderQuestion = function(qType, view) {
+
+	var template = '';
+
+	if (qType === 'question') {
+		template = '/views/question.mst';
+	} else if (qType === 'form') {
+		template = '/views/form.mst';
+	}
+
+	loadTransition(template, function(html) {
+		var output = Mustache.render(html, view);
+		render(output);
+	});
+};
+
 module.exports = {
 	init: init,
 	getTemplate: getTemplate,
 	load: load,
 	render: render,
+	renderQuestion: renderQuestion,
 	loadTransition: loadTransition
 };

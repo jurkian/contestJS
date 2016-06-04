@@ -1,7 +1,6 @@
 var View = require('./view.js'),
 	Popup = require('./popup.js'),
-	Questions = require('./questions.js'),
-	Mustache = require('mustache');
+	Questions = require('./questions.js');
 
 var init = function(ctx, next) {
 	next();
@@ -37,34 +36,29 @@ var question = function(ctx, next) {
 	if (!isNaN(urlId)) {
 		Questions.getCurrent(urlId, function(currentQ) {
 
-			// Single question
-			if (currentQ.type === 'question') {
-
-				View.getTemplate('/views/question.mst', function(html) {
-
-					// Prepare Mustache data
-					var view = {
-					  title: currentQ.title,
-					  currentNumber: urlId,
-					  totalNumber: currentQ.count,
-					  answers: currentQ.answers,
-					  isPrevious: currentQ.isPrevious,
-					  isNext: currentQ.isNext,
-					  previousId: currentQ.previousId,
-					  nextId: currentQ.nextId
-					};
-
-					var output = Mustache.render(html, view);
-					View.render(output);
-				});
-
-			} else if (currentQ.type === 'form') {
-
-				// Single form
-				View.getTemplate('/views/form.html', function(output) {
-					View.render(output);
-				});
+			var formFields = {};
+			if (currentQ.fields) {
+				formFields = currentQ.fields;
 			}
+
+			// Prepare Mustache data
+			var view = {
+			  title: currentQ.title,
+			  currentNumber: urlId,
+			  totalNumber: currentQ.count,
+			  answers: currentQ.answers,
+			  isPrevious: currentQ.isPrevious,
+			  isNext: currentQ.isNext,
+			  previousId: currentQ.previousId,
+			  nextId: currentQ.nextId,
+			  isName: formFields.name,
+			  isLastName: formFields.last_name,
+			  isEmail: formFields.email,
+			  isPhone: formFields.phone,
+			  isOpenQuestion: formFields.open_question
+			};
+
+			View.renderQuestion(currentQ.type, view);
 		});
 	}
 };

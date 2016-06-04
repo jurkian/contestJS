@@ -71,13 +71,13 @@ form {
 	}
 
 	input {
-		
+		margin-bottom: 14px;
 	}
 
 	.half-size {
 		width: 49%;
 
-		&:first-child {
+		&:nth-child(odd) {
 			margin-right: 2%;
 		}
 	}

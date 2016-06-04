@@ -1,0 +1,17 @@
+<section class="full-height main-view">
+	<section class="question-box">
+		<header>
+			<h2 class="question-name">{{title}}</h2>
+			<span class="question-count">{{currentNumber}}/{{totalNumber}}</span>
+		</header>
+		<form>
+			<p>{{#isName}}<input class="half-size" type="text" name="" placeholder="Your name">{{/isName}}{{#isLastName}}<input class="half-size" type="text" name="" placeholder="Your last name">{{/isLastName}}
+			{{#isEmail}}<input class="half-size" type="text" name="" placeholder="Email">{{/isEmail}}{{#isPhone}}<input class="half-size" type="text" name="" placeholder="Your phone number">{{/isPhone}}
+			{{#isOpenQuestion}}<textarea placeholder="In few words, write about..."></textarea></p>{{/isOpenQuestion}}
+			<footer>
+				{{#isPrevious}}<a class="btn btn-primary go-prev-question" href="/question/{{previousId}}">Go back</a>{{/isPrevious}}
+				<a class="btn btn-primary btn-lg btn-submit" href="/question/submit">Submit</a>
+			</footer>
+		</form>
+	</section>
+</section>

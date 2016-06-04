@@ -45,7 +45,7 @@
 		},
 		{
 			"type": "form",
-			"title": "Last step",
+			"title": "Almost done",
 			"fields": {
 				"name": true,
 				"last_name": true,

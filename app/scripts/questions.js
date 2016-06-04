@@ -52,7 +52,8 @@ var getCurrent = function(urlId, callback) {
 
 		var cbData = {
 			count: count,
-			answers: currentQuestion.answers,
+			answers: currentQuestion.answers || false,
+			fields: currentQuestion.fields || false,
 			title: currentQuestion.title,
 			type: currentQuestion.type,
 			isPrevious: isPrevious,
