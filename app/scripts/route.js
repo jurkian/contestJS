@@ -8,19 +8,19 @@ var init = function(ctx, next) {
 };
 
 var intro = function() {
-	View.load('/views/intro.html');
+	View.loadTransition('/views/intro.html');
 };
 
 var prizes = function() {
-	View.load('/views/prizes.html');
+	View.loadTransition('/views/prizes.html');
 };
 
 var rules = function() {
-	View.load('/views/rules.html');
+	View.loadTransition('/views/rules.html');
 };
 
 var help = function() {
-	View.load('/views/help.html');
+	View.loadTransition('/views/help.html');
 };
 
 var about = function() {

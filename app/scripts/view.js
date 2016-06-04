@@ -48,26 +48,29 @@ var load = function(view, callback) {
 var loadTransition = function(view, before, callback) {
 
 	// Reset transition classes and hide view
-	s.container.removeClass('view-out view-in');
+	s.container.removeClass('view-out visuallyhidden');
 
-	// Hide view
+	// Hide view and wait for transition to end
 	s.container.addClass('view-out');
-	s.container.onCSSAnimationEnd(function() {
+	s.container.onCSSTransitionEnd(function() {
+
+		// Make it really hidden
+		s.container.addClass('visuallyhidden');
 
 		// Do things before showing new view
 		getTemplate(view, function(html) {
 			render(html);
 
-			// Before new view - callback
+			// Before new view is shown
 			if (typeof before === 'function') {
 				before();
 			}
 
 			// Start showing new view
-			s.container.addClass('view-in');
-			s.container.onCSSAnimationEnd(function() {
-				s.container.removeClass('view-out view-in');
+			s.container.removeClass('view-out visuallyhidden');
+			s.container.onCSSTransitionEnd(function() {
 
+				// When transition is done, callback
 				if (typeof callback === 'function') {
 					callback();
 				}

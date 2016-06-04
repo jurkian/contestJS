@@ -1,4 +1,5 @@
 var $ = require('jquery'),
+	onCSSAnimationEnd = require('./jquery.oncssanimationend.js'),
 	View = require('./view.js');
 
 // Settings
@@ -13,23 +14,44 @@ var s = {
 var popupBtn = {},
 	popupContent = {};
 
-var close = function() {
+var close = function(callback) {
+	// Remove opened class and wait for transition to end
 	s.popupOverlayEl.removeClass(s.openedClass);
 	s.popupEl.removeClass(s.openedClass);
+
+	// Then: visually hide it
+	s.popupOverlayEl.onCSSTransitionEnd(function() {
+		s.popupOverlayEl.addClass('visuallyhidden');
+		s.popupEl.addClass('visuallyhidden');
+
+		// Callback for transition
+		if (typeof callback === 'function') {
+			callback();
+		}
+	});
+
+	// Callback for no transition
+	if (typeof callback === 'function') {
+		callback();
+	}
 };
 
 var show = function() {
 
 	// Close any open popup before showing new one
-	close();
+	close(function() {
+		s.popupOverlayEl.removeClass('visuallyhidden');
+		s.popupEl.removeClass('visuallyhidden');
 
-	// Add classes
-	s.popupOverlayEl.addClass(s.openedClass);
-	s.popupEl.addClass(s.openedClass);
+		// Add classes
+		s.popupOverlayEl.addClass(s.openedClass);
+		s.popupEl.addClass(s.openedClass);
+	});
+
 };
 
 var showTpl = function(template) {
-	
+
 	// Get template
 	View.getTemplate(template, function(html) {
 		popupContent.empty().append(html);
