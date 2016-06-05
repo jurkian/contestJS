@@ -79,33 +79,67 @@ var load = function(itemName) {
 	return JSON.parse(localStorage.getItem(itemName));
 };
 
-// Activate question = make answers clickable, load and save them
-var activate = function(type, questionNumber) {
-	if (type === 'question') {
+// Question view actions
+var handleQuestionView = function(contestAnswers, questionNumber) {
+	
+	// Highlight selected answer
+	var answerNumber = contestAnswers[questionNumber];
 
-		// Load the answers and highlight selected
-		var contestAnswers = load('contest_answers') || {},
-			answerNumber = contestAnswers[questionNumber];
+	if (contestAnswers && answerNumber) {
+		$('.question-box').find('li[data-answer="' + answerNumber + '"]')
+			.addClass('active');
+	}
 
-		if (contestAnswers && answerNumber) {
-			$('.question-box').find('li[data-answer="' + answerNumber + '"]')
-				.addClass('active');
-		}
+	// Highlight clicked answer
+	$('.question-box').find('.answers-list').on('click', 'li', function() {
+		$(this).closest('ul').find('li').removeClass('active');
+		$(this).addClass('active');
 
-		// Highlight clicked answer
-		$('.question-box').find('.answers-list').on('click', 'li', function() {
-			$(this).closest('ul').find('li').removeClass('active');
-			$(this).addClass('active');
+		var answerId = parseInt($(this).data('answer'), 10);
 
-			var answerId = parseInt($(this).data('answer'), 10);
+		// Save new answer to current question
+		contestAnswers[questionNumber] = answerId;
+		save('contest_answers', contestAnswers);
+	});	
+};
 
-			// Save new answer to current question
-			contestAnswers[questionNumber] = answerId;
-			save('contest_answers', contestAnswers);
+// Form view actions
+var handleFormView = function(contestAnswers) {
+
+	var formFields = contestAnswers.fields;
+
+	// Autocomplete form fields
+	if (formFields) {
+
+		// Form field name == API field name
+		$.each(formFields, function(index, val) {
+			$('.question-box').find('[name="' + index + '"]').val(formFields[index]);
 		});
 
-	} else if (type === 'form') {
+	} else {
+		contestAnswers.fields = {};
+	}
 
+	// Save the field when focus is lost == blur
+	$('.question-box').find('input, textarea').on('blur', function() {
+		var fieldName = $(this).attr('name');
+
+		contestAnswers.fields[fieldName] = $(this).val();
+		save('contest_answers', contestAnswers);
+	});
+};
+
+// Activate question views
+// make answers clickable, enable autocomplete and save
+var activate = function(type, questionNumber) {
+
+	// Load the answers
+	var contestAnswers = load('contest_answers') || {};
+
+	if (type === 'question') {
+		handleQuestionView(contestAnswers, questionNumber);
+	} else if (type === 'form') {
+		handleFormView(contestAnswers);
 	}
 };
 
