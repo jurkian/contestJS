@@ -81,7 +81,7 @@ var loadTransition = function(view, customRender, callback) {
 	});
 };
 
-var renderQuestion = function(qType, view) {
+var renderQuestion = function(qType, view, callback) {
 
 	var template = '';
 
@@ -94,7 +94,7 @@ var renderQuestion = function(qType, view) {
 	loadTransition(template, function(html) {
 		var output = Mustache.render(html, view);
 		render(output);
-	});
+	}, callback);
 };
 
 module.exports = {

@@ -36,9 +36,22 @@ var question = function(ctx, next) {
 	if (!isNaN(urlId)) {
 		Questions.getCurrent(urlId, function(currentQ) {
 
+			// Form fields
 			var formFields = {};
+
 			if (currentQ.fields) {
 				formFields = currentQ.fields;
+			}
+
+			// Add index to each answer
+			var answers = currentQ.answers,
+				answersArr = [];
+
+			for (var i = 0, len = answers.length; i < len; i++) {
+				answersArr.push({
+					'index': parseInt(i, 10) + 1,
+					'title': answers[i]
+				});
 			}
 
 			// Prepare Mustache data
@@ -46,7 +59,7 @@ var question = function(ctx, next) {
 			  title: currentQ.title,
 			  currentNumber: urlId,
 			  totalNumber: currentQ.count,
-			  answers: currentQ.answers,
+			  answers: answersArr,
 			  isPrevious: currentQ.isPrevious,
 			  isNext: currentQ.isNext,
 			  previousId: currentQ.previousId,
@@ -58,7 +71,9 @@ var question = function(ctx, next) {
 			  isOpenQuestion: formFields.open_question
 			};
 
-			View.renderQuestion(currentQ.type, view);
+			View.renderQuestion(currentQ.type, view, function() {
+				Questions.activate(currentQ.type, urlId);
+			});
 		});
 	}
 };

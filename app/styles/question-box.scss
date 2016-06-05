@@ -50,7 +50,7 @@
 				content: counter(answer-number) ". ";
 			}
 
-			&:hover {
+			&:hover, &.active {
 				background: rgba(23, 151, 212, 0.75);
 			}
 		}

@@ -7,7 +7,7 @@
 		<div class="answers-list">
 			<ul>
 				{{#answers}}
-				<li>{{.}}</li>
+				<li data-answer="{{index}}">{{title}}</li>
 				{{/answers}}
 			</ul>
 		</div>

@@ -4,9 +4,9 @@ var $ = require('jquery');
 // Store them in LS to avoid unnecessary HTTP calls
 var getAll = function(callback) {
 
-	if (!load()) {
+	if (!load('contest_questions')) {
 		$.getJSON('/api.json', function(data) {
-			save(data);
+			save('contest_questions', data);
 
 			if (typeof callback === 'function') {
 				callback(data);
@@ -15,7 +15,7 @@ var getAll = function(callback) {
 
 	} else {
 		if (typeof callback === 'function') {
-			callback(load());
+			callback(load('contest_questions'));
 		}
 	}
 };
@@ -69,16 +69,47 @@ var getCurrent = function(urlId, callback) {
 	});
 };
 
-// Save questions as JSON
-var save = function(questions) {
-	localStorage.setItem('contest_questions', JSON.stringify(questions));
+// Save as JSON
+var save = function(itemName, value) {
+	localStorage.setItem(itemName, JSON.stringify(value));
 };
 
-// Load questions as JSON
-var load = function() {
-	return JSON.parse(localStorage.getItem('contest_questions'));
+// Load as JSON
+var load = function(itemName) {
+	return JSON.parse(localStorage.getItem(itemName));
+};
+
+// Activate question = make answers clickable, load and save them
+var activate = function(type, questionNumber) {
+	if (type === 'question') {
+
+		// Load the answers and highlight selected
+		var contestAnswers = load('contest_answers') || {},
+			answerNumber = contestAnswers[questionNumber];
+
+		if (contestAnswers && answerNumber) {
+			$('.question-box').find('li[data-answer="' + answerNumber + '"]')
+				.addClass('active');
+		}
+
+		// Highlight clicked answer
+		$('.question-box').find('.answers-list').on('click', 'li', function() {
+			$(this).closest('ul').find('li').removeClass('active');
+			$(this).addClass('active');
+
+			var answerId = parseInt($(this).data('answer'), 10);
+
+			// Save new answer to current question
+			contestAnswers[questionNumber] = answerId;
+			save('contest_answers', contestAnswers);
+		});
+
+	} else if (type === 'form') {
+
+	}
 };
 
 module.exports = {
-	getCurrent: getCurrent
+	getCurrent: getCurrent,
+	activate: activate
 };
