@@ -1,15 +1,16 @@
 var $ = require('jquery'),
-	jqueryValidation = require('jquery-validation'),
-	Page = require('page'),
-	Popup = require('./popup.js');
+	Validation = require('./validation.js'),
+	Tools = require('./tools.js');
 
 // If Local Storage is empty, get questions from API
 // Store them in LS to avoid unnecessary HTTP calls
 var getAll = function(callback) {
 
-	if (!load('contest_questions')) {
+	var questions = Tools.loadLS('contest_questions');
+
+	if (!questions) {
 		$.getJSON('/api.json', function(data) {
-			save('contest_questions', data);
+			Tools.saveLS('contest_questions', data);
 
 			if (typeof callback === 'function') {
 				callback(data);
@@ -18,7 +19,7 @@ var getAll = function(callback) {
 
 	} else {
 		if (typeof callback === 'function') {
-			callback(load('contest_questions'));
+			callback(questions);
 		}
 	}
 };
@@ -68,103 +69,6 @@ var getCurrent = function(urlId, callback) {
 		if (typeof callback === 'function') {
 			callback(cbData);
 		}
-
-	});
-};
-
-// Save as JSON
-var save = function(itemName, value) {
-	localStorage.setItem(itemName, JSON.stringify(value));
-};
-
-// Load as JSON
-var load = function(itemName) {
-	var data = localStorage.getItem(itemName);
-
-	if (data) {
-		return JSON.parse(data);
-	} else {
-		return data;
-	}
-};
-
-// Validate answers
-var isAnswersValid = function() {
-	var questions = load('contest_questions'),
-		answers = load('contest_answers');
-
-	// Assume that questions go first and the last one is form
-	// isAnswersValid goes only if form is correct
-	// Exclude it when checking length
-	var questionsLength = Object.keys(questions.forms).length - 1,
-		answersLength = Object.keys(answers).length - 1;
-
-	if (answersLength < questionsLength) {
-		Popup.showTpl('/views/popup/questions-error.html');
-		Page('/question/1');
-
-		return false;
-	} else {
-		return true;
-	}
-};
-
-// Assume that form is valid
-// Now check the answers
-var handleSubmit = function(form) {
-	if (isAnswersValid() === true) {
-		Page('/thankyou');
-	}
-};
-
-// Questions and form validation
-var activateValidation = function(form) {
-	$(form).validate({
-		rules: {
-			name: {
-				required: true,
-				minlength: 2
-			},
-			last_name: {
-				required: true,
-				minlength: 2
-			},
-			email: {
-				required: true,
-				email: true,
-				minlength: 6
-			},
-			open_question: {
-				required: true,
-				minlength: 15,
-				maxlength: 500
-			}
-		},
-		messages: {
-			name: {
-				required: "Please write your name",
-				minlength: "Name should be at least 2 characters"
-			},
-			last_name: {
-				required: "Please write your last name",
-				minlength: "Last name should be at least 2 characters"
-			},
-			email: {
-				required: "Please write your email",
-				minlength: "Email should be at least 6 characters",
-				email: "You email doesn't seem correct"
-			},
-			open_question: {
-				required: "Please write your answer",
-				minlength: "Answer should be at least 15 characters",
-				maxlength: "Answer should be a maximum 500 characters"
-			}
-		},
-		errorLabelContainer: $('.validation-errors'),
-		errorElement: "p",
-		submitHandler: function(form) {
-			handleSubmit(form);
-		}
 	});
 };
 
@@ -188,7 +92,7 @@ var handleQuestionView = function(contestAnswers, questionNumber) {
 
 		// Save new answer to current question
 		contestAnswers[questionNumber] = answerId;
-		save('contest_answers', contestAnswers);
+		Tools.saveLS('contest_answers', contestAnswers);
 	});	
 };
 
@@ -210,14 +114,14 @@ var handleFormView = function(contestAnswers) {
 	}
 
 	// Activate validation
-	activateValidation($('.question-box').find('form'));
+	Validation.activate($('.question-box').find('form'));
 
 	// Save the field when focus is lost == blur
 	$('.question-box').find('input, textarea').on('blur', function() {
 		var fieldName = $(this).attr('name');
 
 		contestAnswers.fields[fieldName] = $(this).val();
-		save('contest_answers', contestAnswers);
+		Tools.saveLS('contest_answers', contestAnswers);
 	});
 };
 
@@ -226,7 +130,7 @@ var handleFormView = function(contestAnswers) {
 var activate = function(type, questionNumber) {
 
 	// Load the answers
-	var contestAnswers = load('contest_answers') || {};
+	var contestAnswers = Tools.loadLS('contest_answers') || {};
 
 	if (type === 'question') {
 		handleQuestionView(contestAnswers, questionNumber);
