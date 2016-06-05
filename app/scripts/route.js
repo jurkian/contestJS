@@ -30,6 +30,10 @@ var contact = function() {
 	Popup.showTpl('/views/popup/contact.html');
 };
 
+var submit = function() {
+	Popup.showTpl('/views/popup/thankyou.html');
+};
+
 var question = function(ctx, next) {
 	var urlId = parseInt(ctx.params.id, 10);
 
@@ -88,6 +92,7 @@ module.exports = {
 	help: help,
 	about: about,
 	contact: contact,
+	submit: submit,
 	question: question,
 	notFound: notFound
 };

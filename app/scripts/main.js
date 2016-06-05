@@ -31,6 +31,7 @@ var init = function() {
 	Page('contact', Route.contact);
 	
 	// Questions
+	Page('question/submit', Route.submit);
 	Page('question/:id', Route.question);
 
 	// Not found

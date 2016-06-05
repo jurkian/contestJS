@@ -15,6 +15,7 @@ var popupBtn = {},
 	popupContent = {};
 
 var close = function(callback) {
+
 	// Remove opened class and wait for transition to end
 	s.popupOverlayEl.removeClass(s.openedClass);
 	s.popupEl.removeClass(s.openedClass);
@@ -23,6 +24,8 @@ var close = function(callback) {
 	s.popupOverlayEl.onCSSTransitionEnd(function() {
 		s.popupOverlayEl.addClass('visuallyhidden');
 		s.popupEl.addClass('visuallyhidden');
+
+		popupContent.empty();
 
 		// Callback for transition
 		if (typeof callback === 'function') {
@@ -38,26 +41,26 @@ var close = function(callback) {
 
 var show = function() {
 
-	// Close any open popup before showing new one
-	close(function() {
-		s.popupOverlayEl.removeClass('visuallyhidden');
-		s.popupEl.removeClass('visuallyhidden');
+	s.popupOverlayEl.removeClass('visuallyhidden');
+	s.popupEl.removeClass('visuallyhidden');
 
-		// Add classes
-		s.popupOverlayEl.addClass(s.openedClass);
-		s.popupEl.addClass(s.openedClass);
-	});
+	// Add classes
+	s.popupOverlayEl.addClass(s.openedClass);
+	s.popupEl.addClass(s.openedClass);
 
 };
 
 var showTpl = function(template) {
 
-	// Get template
-	View.getTemplate(template, function(html) {
-		popupContent.empty().append(html);
+	// Close any open popups before showing new one
+	close(function() {
+		// Get template
+		View.getTemplate(template, function(html) {
+			popupContent.append(html);
 
-		// Popup is ready - show it
-		show();
+			// Popup is ready - show it
+			show();
+		});
 	});
 };
 
