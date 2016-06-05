@@ -1,9 +1,16 @@
 /* Buttons */
 
+button.btn {
+	border: 0;
+	cursor: pointer;
+}
+
 .btn {
 	padding: 5px 12px;
 	text-shadow: rgba(0,0,0,0.25);
 	display: inline-block;
+
+	transition: all $trans-time-easing;
 }
 
 .btn-primary {

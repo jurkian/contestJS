@@ -30,8 +30,10 @@ var contact = function() {
 	Popup.showTpl('/views/popup/contact.html');
 };
 
-var submit = function() {
-	Popup.showTpl('/views/popup/thankyou.html');
+var thankyou = function() {
+	View.loadTransition('/views/intro.html');
+	Popup.showTpl('/views/popup/thank-you.html');
+	Questions.reset();
 };
 
 var question = function(ctx, next) {
@@ -92,7 +94,7 @@ module.exports = {
 	help: help,
 	about: about,
 	contact: contact,
-	submit: submit,
+	thankyou: thankyou,
 	question: question,
 	notFound: notFound
 };

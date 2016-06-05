@@ -45,12 +45,21 @@
     }
   },
   "dependencies": {
+    "jquery-validation": "^1.15.0",
     "mustache": "^2.2.1",
     "normalize.css": "^4.1.1",
     "page": "^1.7.1"
   },
+  "browser": {
+    "jquery-validation": "./node_modules/jquery-validation/dist/jquery.validate.js"
+  },
   "browserify-shim": {
-    "jquery": "global:$"
+    "jquery": "global:$",
+    "jquery-validate": {
+      "depends": [
+        "jquery:$"
+      ]
+    }
   },
   "browserify": {
     "transform": [

@@ -81,6 +81,10 @@ form {
 
 		transition: border .15s;
 
+		&.error {
+			border-color: #c92121;
+		}
+
 		&:focus {
 			border-color: $blue-light;
 			outline: 0;
@@ -102,6 +106,12 @@ form {
 	textarea {
 		width: 100%;
 		min-height: 150px;
+	}
+}
+
+.validation-errors {
+	p {
+		margin: 0 0 2px;
 	}
 }
 
