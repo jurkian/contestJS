@@ -2,7 +2,8 @@ var $ = require('jquery'),
 	Page = require('page'),
 	Route = require('./route.js'),
 	Popup = require('./popup.js'),
-	View = require('./view.js');
+	View = require('./view.js'),
+	Tools = require('./tools.js');
 
 // Run the game if all assets are loaded
 var init = function() {
@@ -17,6 +18,11 @@ var init = function() {
 		closeEl: $('.popup').find('.close'),
 		openedClass: 'opened'
 	});
+
+	// Check if user's browser is up to date
+	if (!Tools.isBrowserSupported()) {
+		Popup.showTpl('/views/popup/new-browser.html');
+	}
 
 	// Routing
 	View.init($('section.view'));

@@ -51,7 +51,8 @@
     "page": "^1.7.1"
   },
   "browser": {
-    "jquery-validation": "./node_modules/jquery-validation/dist/jquery.validate.js"
+    "jquery-validation": "./node_modules/jquery-validation/dist/jquery.validate.js",
+    "modernizr": "./app/scripts/modernizr.js"
   },
   "browserify-shim": {
     "jquery": "global:$",
@@ -59,7 +60,8 @@
       "depends": [
         "jquery:$"
       ]
-    }
+    },
+    "modernizr": "Modernizr"
   },
   "browserify": {
     "transform": [
