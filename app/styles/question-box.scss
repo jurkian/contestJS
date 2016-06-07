@@ -69,3 +69,92 @@
 		float: right;
 	}
 }
+
+/* Form */
+form {
+	input, textarea {
+		font: $font-size $font-family;
+		padding: 8px;
+		border: 2px solid #ececec;
+		color: #333;
+
+		transition: border .15s;
+
+		&.error {
+			border-color: #c92121;
+		}
+
+		&:focus {
+			border-color: $blue-light;
+			outline: 0;
+		}
+	}
+
+	input {
+		margin-bottom: 14px;
+	}
+
+	.half-size {
+		width: 49%;
+
+		&:nth-child(odd) {
+			margin-right: 2%;
+		}
+	}
+
+	textarea {
+		width: 100%;
+		min-height: 150px;
+	}
+}
+
+.validation-errors {
+	p {
+		margin: 0 0 2px;
+	}
+}
+
+/* Responsive */
+@media screen and (max-width: 1200px) {
+	.question-box {
+		max-width: 60%;
+	}
+}
+
+@media screen and (max-width: 900px) {
+	.question-box {
+		max-width: 80%;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.question-box {
+		max-width: 99%;
+
+		footer {
+			text-align: center;
+			margin-top: 30px;
+
+			.btn {
+				display: inline-block;
+				float: none;
+				margin: 0 4px;
+				font-size: 18px;
+				padding: 7px 16px;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 480px) {
+	form {
+		.half-size, .half-size:nth-child(odd) {
+			margin: 0 0 10px;
+			width: 100%;
+		}
+	}
+
+	.validation-errors p {
+		font-size: 16px;
+	}
+}

@@ -9,6 +9,9 @@
 /* Views */
 
 .view {
+	min-height: 83vh;
+	margin-top: 20px;
+	margin-bottom: 10px;
 
 	h1 {
 		font-size: 40px;
@@ -33,7 +36,7 @@
 /* Full height */
 
 .full-height {
-	min-height: 90vh;
+	min-height: 83vh;
 }
 
 /* Intro */
@@ -55,7 +58,7 @@
 	background: rgba(23, 45, 85, 0.9);
 	max-width: 80%;
 	height: auto;
-	margin: 30px auto 10px;
+	margin: 0 auto;
 	padding: 50px;
 
 	header {
@@ -89,8 +92,6 @@
 	}
 }
 
-.view {}
-
 /* Show/hide views */
 
 .view-out {
@@ -115,4 +116,12 @@
   padding: 0;
   position: absolute;
   width: 1px;
+}
+
+/* Responsive */
+@media screen and (max-width: 900px) {
+	.single-article {
+		max-width: 99%;
+		padding: 25px;
+	}
 }

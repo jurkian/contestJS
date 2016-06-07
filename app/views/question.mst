@@ -13,8 +13,8 @@
 		</div>
 
 		<footer>
-			{{#isPrevious}}<a class="btn btn-primary go-prev-question" href="/question/{{previousId}}">Go back</a>{{/isPrevious}}
-			{{#isNext}}<a class="btn btn-primary go-next-question" href="/question/{{nextId}}">Next question</a>{{/isNext}}
+			{{#isPrevious}}<a class="btn btn-primary go-prev-question" href="/question/{{previousId}}">&laquo; Go back</a>{{/isPrevious}}
+			{{#isNext}}<a class="btn btn-primary go-next-question" href="/question/{{nextId}}">Next question &raquo;</a>{{/isNext}}
 		</footer>
 	</section>
 </section>

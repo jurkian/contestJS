@@ -70,51 +70,6 @@ nav {
 	}
 }
 
-/* Forms */
-
-form {
-	input, textarea {
-		font: $font-size $font-family;
-		padding: 8px;
-		border: 2px solid #ececec;
-		color: #333;
-
-		transition: border .15s;
-
-		&.error {
-			border-color: #c92121;
-		}
-
-		&:focus {
-			border-color: $blue-light;
-			outline: 0;
-		}
-	}
-
-	input {
-		margin-bottom: 14px;
-	}
-
-	.half-size {
-		width: 49%;
-
-		&:nth-child(odd) {
-			margin-right: 2%;
-		}
-	}
-
-	textarea {
-		width: 100%;
-		min-height: 150px;
-	}
-}
-
-.validation-errors {
-	p {
-		margin: 0 0 2px;
-	}
-}
-
 @import 'views';
 @import 'buttons';
 @import 'menu';

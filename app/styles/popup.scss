@@ -53,3 +53,20 @@
 		transform: scale(1, 1);
 	}
 }
+
+/* Responsive */
+@media screen and (max-width: 550px) {
+	.popup {
+		margin: 10px;
+
+		h2 {
+			margin-top: 25px;
+		}
+
+		.close {
+			top: 12px;
+			right: 10px;
+			font-size: 24px;
+		}
+	}
+}
