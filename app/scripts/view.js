@@ -48,15 +48,14 @@ var load = function(view, callback) {
 // Load view with transition
 var loadTransition = function(view, customRender, callback) {
 
-	// Reset transition classes and hide view
-	s.container.removeClass('view-out visuallyhidden');
+	// Reset animation classes and hide view
+	s.container.removeClass('view-in view-out');
 
-	// Hide view and wait for transition to end
+	// Hide view and wait for animation to end
 	s.container.addClass('view-out');
-	s.container.onCSSTransitionEnd(function() {
+	s.container.onCSSAnimationEnd(function() {
 
 		// Make it really hidden
-		s.container.addClass('visuallyhidden');
 
 		// Do things before showing new view
 		getTemplate(view, function(html) {
@@ -69,10 +68,12 @@ var loadTransition = function(view, customRender, callback) {
 			}
 
 			// Start showing new view
-			s.container.removeClass('view-out visuallyhidden');
-			s.container.onCSSTransitionEnd(function() {
+			s.container.addClass('view-in');
+			s.container.onCSSAnimationEnd(function() {
 
-				// When transition is done, callback
+				s.container.removeClass('view-in view-out');
+
+				// When animation is done, callback
 				if (typeof callback === 'function') {
 					callback();
 				}
@@ -81,16 +82,8 @@ var loadTransition = function(view, customRender, callback) {
 	});
 };
 
-var renderQuestion = function(qType, view, callback) {
-
-	var template = '';
-
-	if (qType === 'question') {
-		template = '/views/question.mst';
-	} else if (qType === 'form') {
-		template = '/views/form.mst';
-	}
-
+// Render HTML template using Mustache and view data
+var renderQuestion = function(template, view, callback) {
 	loadTransition(template, function(html) {
 		var output = Mustache.render(html, view);
 		render(output);

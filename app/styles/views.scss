@@ -69,14 +69,36 @@
 
 /* View transitions */
 
-.view {
-	transition: opacity .3s;
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
 }
+
+@keyframes fade-out {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+.view {}
 
 /* Show/hide views */
 
 .view-out {
-	opacity: 0;
+	animation: fade-out .3s forwards;
+}
+
+.view-in {
+	animation: fade-in .3s forwards;
 }
 
 /*

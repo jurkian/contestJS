@@ -39,49 +39,11 @@ var thankyou = function() {
 var question = function(ctx, next) {
 	var urlId = parseInt(ctx.params.id, 10);
 
-	if (!isNaN(urlId)) {
-		Questions.getCurrent(urlId, function(currentQ) {
-
-			// Form fields
-			var formFields = {};
-
-			if (currentQ.fields) {
-				formFields = currentQ.fields;
-			}
-
-			// Add index to each answer
-			var answers = currentQ.answers,
-				answersArr = [];
-
-			for (var i = 0, len = answers.length; i < len; i++) {
-				answersArr.push({
-					'index': parseInt(i, 10) + 1,
-					'title': answers[i]
-				});
-			}
-
-			// Prepare Mustache data
-			var view = {
-			  title: currentQ.title,
-			  currentNumber: urlId,
-			  totalNumber: currentQ.count,
-			  answers: answersArr,
-			  isPrevious: currentQ.isPrevious,
-			  isNext: currentQ.isNext,
-			  previousId: currentQ.previousId,
-			  nextId: currentQ.nextId,
-			  isName: formFields.name,
-			  isLastName: formFields.last_name,
-			  isEmail: formFields.email,
-			  isPhone: formFields.phone,
-			  isOpenQuestion: formFields.open_question
-			};
-
-			View.renderQuestion(currentQ.type, view, function() {
-				Questions.activate(currentQ.type, urlId);
-			});
+	Questions.getCurrent(urlId, function(data) {
+		View.renderQuestion(data.template, data, function() {
+			Questions.activate(data.type, urlId);
 		});
-	}
+	});
 };
 
 var notFound = function() {};

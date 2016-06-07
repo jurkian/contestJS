@@ -27,49 +27,86 @@ var getAll = function(callback) {
 // Make sure that questions are loaded in LS
 // And return the current question's data
 var getCurrent = function(urlId, callback) {
-	getAll(function(data) {
 
-		// Questions in the address bar should start from 1
-		// But in API they start from 0
-		var currentQuestion = data.forms[urlId - 1],
-			count = data.forms.length,
-			isPrevious = false,
-			isNext = true,
-			previousId = 0,
-			nextId = 1;
+	if (!isNaN(urlId)) {
+		getAll(function(data) {
 
-		// Don't show "go back" if there is no previous question
-		if (urlId - 1 <= 0) {
-			isPrevious = false;
-		} else {
-			isPrevious = true;
-			previousId = urlId - 1;
-		}
+			// Questions in the address bar should start from 1
+			// But in API they start from 0
+			var currentQuestion = data.forms[urlId - 1],
+				count = data.forms.length,
+				answers = currentQuestion.answers || false,
+				formFields = currentQuestion.fields || false,
+				template = '';
 
-		// Don't show "go next" if it's more than questions count
-		if (urlId + 1 > count) {
-			isNext = false;
-		} else {
-			isNext = true;
-			nextId = urlId + 1;
-		}
+			// Prepare Mustache view data
+			var view = {
+				template: '',
+				type: currentQuestion.type,
+				title: currentQuestion.title,
+				currentNumber: urlId,
+				totalNumber: count,
+				isPrevious: false,
+				isNext: true,
+				previousId: 0,
+				nextId: 1,
+			};
 
-		var cbData = {
-			count: count,
-			answers: currentQuestion.answers || false,
-			fields: currentQuestion.fields || false,
-			title: currentQuestion.title,
-			type: currentQuestion.type,
-			isPrevious: isPrevious,
-			isNext: isNext,
-			previousId: previousId,
-			nextId: nextId
-		};
+			// Determine the view template
+			if (view.type === 'question') {
+				view.template = '/views/question.mst';
+			} else if (view.type === 'form') {
+				view.template = '/views/form.mst';
+			}
 
-		if (typeof callback === 'function') {
-			callback(cbData);
-		}
-	});
+			// Prepare answers
+			// Add index to each answer
+			if (answers) {
+				var answersArr = [];
+
+				for (var i = 0, len = answers.length; i < len; i++) {
+					answersArr.push({
+						'index': parseInt(i, 10) + 1,
+						'title': answers[i]
+					});
+				}
+
+				view.answers = answersArr;
+			}
+
+			// Prepare form fields
+			if (formFields) {
+				view.isName = formFields.name;
+				view.isLastName = formFields.last_name;
+				view.isEmail = formFields.email;
+				view.isPhone = formFields.phone;
+				view.isOpenQuestion = formFields.open_question;
+			}
+
+			// Prepare "previous" and "next" buttons and their IDs
+
+			// Don't show "go back" if there is no previous question
+			if (urlId - 1 <= 0) {
+				view.isPrevious = false;
+			} else {
+				view.isPrevious = true;
+				view.previousId = urlId - 1;
+			}
+
+			// Don't show "go next" if it's more than questions count
+			if (urlId + 1 > count) {
+				view.isNext = false;
+			} else {
+				view.isNext = true;
+				view.nextId = urlId + 1;
+			}
+
+			if (typeof callback === 'function') {
+				callback(view);
+			}
+		});
+	}
+
 };
 
 // Question view actions
