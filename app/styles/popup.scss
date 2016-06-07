@@ -41,6 +41,14 @@
 		cursor: pointer;
 	}
 
+	a {
+		color: $blue-light;
+
+		&:hover {
+			opacity: 0.8;
+		}
+	}
+
 	&.opened {
 		transform: scale(1, 1);
 	}
