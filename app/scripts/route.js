@@ -1,62 +1,62 @@
-var View = require('./view.js'),
+let View = require('./view.js'),
 	Popup = require('./popup.js'),
 	Questions = require('./questions.js');
 
-var init = function(ctx, next) {
+let init = (ctx, next) => {
 	next();
 };
 
-var intro = function() {
+let intro = () => {
 	View.loadTransition('/views/intro.html');
 };
 
-var prizes = function() {
+let prizes = () => {
 	View.loadTransition('/views/prizes.html');
 };
 
-var rules = function() {
+let rules = () => {
 	View.loadTransition('/views/rules.html');
 };
 
-var help = function() {
+let help = () => {
 	View.loadTransition('/views/help.html');
 };
 
-var about = function() {
+let about = () => {
 	Popup.showTpl('/views/popup/about.html');
 };
 
-var contact = function() {
+let contact = () => {
 	Popup.showTpl('/views/popup/contact.html');
 };
 
-var thankyou = function() {
+let thankyou = () => {
 	View.loadTransition('/views/intro.html');
 	Popup.showTpl('/views/popup/thank-you.html');
 	Questions.reset();
 };
 
-var question = function(ctx, next) {
-	var urlId = parseInt(ctx.params.id, 10);
+let question = (ctx, next) => {
+	let urlId = parseInt(ctx.params.id, 10);
 
-	Questions.getCurrent(urlId, function(data) {
-		View.renderQuestion(data.template, data, function() {
+	Questions.getCurrent(urlId, data => {
+		View.renderQuestion(data.template, data, () => {
 			Questions.activate(data.type, urlId);
 		});
 	});
 };
 
-var notFound = function() {};
+let notFound = () => {};
 
 module.exports = {
-	init: init,
-	intro: intro,
-	prizes: prizes,
-	rules: rules,
-	help: help,
-	about: about,
-	contact: contact,
-	thankyou: thankyou,
-	question: question,
-	notFound: notFound
+	init,
+	intro,
+	prizes,
+	rules,
+	help,
+	about,
+	contact,
+	thankyou,
+	question,
+	notFound
 };

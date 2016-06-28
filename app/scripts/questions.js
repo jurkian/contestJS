@@ -1,15 +1,15 @@
-var $ = require('jquery'),
+let $ = require('jquery'),
 	Validation = require('./validation.js'),
 	Tools = require('./tools.js');
 
 // If Local Storage is empty, get questions from API
 // Store them in LS to avoid unnecessary HTTP calls
-var getAll = function(callback) {
+let getAll = callback => {
 
-	var questions = Tools.loadLS('contest_questions');
+	let questions = Tools.loadLS('contest_questions');
 
 	if (!questions) {
-		$.getJSON('/api.json', function(data) {
+		$.getJSON('/api.json', data => {
 			Tools.saveLS('contest_questions', data);
 
 			if (typeof callback === 'function') {
@@ -26,21 +26,21 @@ var getAll = function(callback) {
 
 // Make sure that questions are loaded in LS
 // And return the current question's data
-var getCurrent = function(urlId, callback) {
+let getCurrent = (urlId, callback) => {
 
 	if (!isNaN(urlId)) {
-		getAll(function(data) {
+		getAll(data => {
 
 			// Questions in the address bar should start from 1
 			// But in API they start from 0
-			var currentQuestion = data.forms[urlId - 1],
+			let currentQuestion = data.forms[urlId - 1],
 				count = data.forms.length,
 				answers = currentQuestion.answers || false,
 				formFields = currentQuestion.fields || false,
 				template = '';
 
 			// Prepare Mustache view data
-			var view = {
+			let view = {
 				template: '',
 				type: currentQuestion.type,
 				title: currentQuestion.title,
@@ -62,14 +62,14 @@ var getCurrent = function(urlId, callback) {
 			// Prepare answers
 			// Add index to each answer
 			if (answers) {
-				var answersArr = [];
+				let answersArr = [];
 
-				for (var i = 0, len = answers.length; i < len; i++) {
+				answers.forEach((answer, index) => {
 					answersArr.push({
-						'index': parseInt(i, 10) + 1,
-						'title': answers[i]
+						'index': parseInt(index, 10) + 1,
+						'title': answer
 					});
-				}
+				});
 
 				view.answers = answersArr;
 			}
@@ -110,10 +110,10 @@ var getCurrent = function(urlId, callback) {
 };
 
 // Question view actions
-var handleQuestionView = function(contestAnswers, questionNumber) {
+let handleQuestionView = (contestAnswers, questionNumber) => {
 	
 	// Highlight selected answer
-	var answerNumber = contestAnswers[questionNumber];
+	let answerNumber = contestAnswers[questionNumber];
 
 	if (contestAnswers && answerNumber) {
 		$('.question-box').find('li[data-answer="' + answerNumber + '"]')
@@ -125,7 +125,7 @@ var handleQuestionView = function(contestAnswers, questionNumber) {
 		$(this).closest('ul').find('li').removeClass('active');
 		$(this).addClass('active');
 
-		var answerId = parseInt($(this).data('answer'), 10);
+		let answerId = parseInt($(this).data('answer'), 10);
 
 		// Save new answer to current question
 		contestAnswers[questionNumber] = answerId;
@@ -134,15 +134,15 @@ var handleQuestionView = function(contestAnswers, questionNumber) {
 };
 
 // Form view actions
-var handleFormView = function(contestAnswers) {
+let handleFormView = contestAnswers => {
 
-	var formFields = contestAnswers.fields;
+	let formFields = contestAnswers.fields;
 
 	// Autocomplete form fields
 	if (formFields) {
 
 		// Form field name == API field name
-		$.each(formFields, function(index, val) {
+		$.each(formFields, (index, val) => {
 			$('.question-box').find('[name="' + index + '"]').val(formFields[index]);
 		});
 
@@ -155,7 +155,7 @@ var handleFormView = function(contestAnswers) {
 
 	// Save the field when focus is lost == blur
 	$('.question-box').find('input, textarea').on('blur', function() {
-		var fieldName = $(this).attr('name');
+		let fieldName = $(this).attr('name');
 
 		contestAnswers.fields[fieldName] = $(this).val();
 		Tools.saveLS('contest_answers', contestAnswers);
@@ -164,10 +164,10 @@ var handleFormView = function(contestAnswers) {
 
 // Activate question views
 // make answers clickable, enable autocomplete and save
-var activate = function(type, questionNumber) {
+let activate = (type, questionNumber) => {
 
 	// Load the answers
-	var contestAnswers = Tools.loadLS('contest_answers') || {};
+	let contestAnswers = Tools.loadLS('contest_answers') || {};
 
 	if (type === 'question') {
 		handleQuestionView(contestAnswers, questionNumber);
@@ -177,13 +177,13 @@ var activate = function(type, questionNumber) {
 };
 
 // Remove all questions and answers data from LS
-var reset = function() {
+let reset = () => {
 	localStorage.setItem('contest_answers', '');
 	localStorage.setItem('contest_questions', '');
 };
 
 module.exports = {
-	getCurrent: getCurrent,
-	activate: activate,
-	reset: reset
+	getCurrent,
+	activate,
+	reset
 };

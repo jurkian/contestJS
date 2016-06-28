@@ -1,13 +1,13 @@
-var Modernizr = require('modernizr');
+let Modernizr = require('modernizr');
 
 // Save as JSON
-var saveLS = function(itemName, value) {
+let saveLS = (itemName, value) => {
 	localStorage.setItem(itemName, JSON.stringify(value));
 };
 
 // Load as JSON
-var loadLS = function(itemName) {
-	var data = localStorage.getItem(itemName);
+let loadLS = itemName => {
+	let data = localStorage.getItem(itemName);
 
 	if (data) {
 		return JSON.parse(data);
@@ -17,7 +17,7 @@ var loadLS = function(itemName) {
 };
 
 // Detect features using Modernizr
-var isBrowserSupported = function() {
+let isBrowserSupported = () => {
 	return Modernizr.hashchange && Modernizr.history && Modernizr.inputtypes &&
 		Modernizr.json && Modernizr.cssanimations && Modernizr.flexbox &&
 		Modernizr.fontface && Modernizr.mediaqueries && Modernizr.csstransforms &&
@@ -25,7 +25,7 @@ var isBrowserSupported = function() {
 };
 
 module.exports = {
-	saveLS: saveLS,
-	loadLS: loadLS,
-	isBrowserSupported: isBrowserSupported
+	saveLS,
+	loadLS,
+	isBrowserSupported
 };

@@ -1,4 +1,4 @@
-var $ = require('jquery'),
+let $ = require('jquery'),
 	Page = require('page'),
 	Route = require('./route.js'),
 	Popup = require('./popup.js'),
@@ -6,7 +6,7 @@ var $ = require('jquery'),
 	Tools = require('./tools.js');
 
 // Run the game if all assets are loaded
-var init = function() {
+let init = () => {
 
 	// Settings
 	// ...

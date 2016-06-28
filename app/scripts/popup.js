@@ -1,9 +1,10 @@
-var $ = require('jquery'),
-	onCSSAnimationEnd = require('./jquery.oncssanimationend.js'),
+let $ = require('jquery'),
 	View = require('./view.js');
 
+require('./jquery.oncssanimationend.js');
+
 // Settings
-var s = {
+let s = {
 	popupOverlayEl: $('.popup-overlay'),
 	popupEl: $('.popup'),
 	closeEl: $('.popup').find('.close'),
@@ -11,17 +12,17 @@ var s = {
 };
 
 // Local variables
-var popupBtn = {},
+let popupBtn = {},
 	popupContent = {};
 
-var close = function(callback) {
+let close = callback => {
 
 	// Remove opened class and wait for transition to end
 	s.popupOverlayEl.removeClass(s.openedClass);
 	s.popupEl.removeClass(s.openedClass);
 
 	// Then: visually hide it
-	s.popupOverlayEl.onCSSTransitionEnd(function() {
+	s.popupOverlayEl.onCSSTransitionEnd(() => {
 		s.popupOverlayEl.addClass('visuallyhidden');
 		s.popupEl.addClass('visuallyhidden');
 
@@ -39,7 +40,7 @@ var close = function(callback) {
 	}
 };
 
-var show = function() {
+let show = () => {
 
 	s.popupOverlayEl.removeClass('visuallyhidden');
 	s.popupEl.removeClass('visuallyhidden');
@@ -50,12 +51,12 @@ var show = function() {
 
 };
 
-var showTpl = function(template) {
+let showTpl = template => {
 
 	// Close any open popups before showing new one
-	close(function() {
+	close(() => {
 		// Get template
-		View.getTemplate(template, function(html) {
+		View.getTemplate(template, html => {
 			popupContent.append(html);
 
 			// Popup is ready - show it
@@ -64,7 +65,7 @@ var showTpl = function(template) {
 	});
 };
 
-var init = function(config) {
+let init = config => {
 	s = config;
 
 	// Set local vars
@@ -84,14 +85,14 @@ var init = function(config) {
 	s.closeEl.on('click', close);
 
 	// But do nothing when clicked inside popup
-	s.popupEl.on('click', function(e) {
+	s.popupEl.on('click', e => {
 		e.stopPropagation();
 	});
 };
 
 module.exports = {
-	init: init,
-	show: show,
-	showTpl: showTpl,
-	close: close
+	init,
+	show,
+	showTpl,
+	close
 };

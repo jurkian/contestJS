@@ -1,26 +1,25 @@
-var $ = require('jquery'),
-	onCSSAnimationEnd = require('./jquery.oncssanimationend.js'),
+let $ = require('jquery'),
 	Mustache = require('mustache');
 
+require('./jquery.oncssanimationend.js');
+
 // Settings
-var s = {
+let s = {
 	container: {},
 	cache: {}
 };
 
-var init = function(container) {
-	s.container = container;
-};
+let init = container => s.container = container;
 
 // Get HTML template
-var getTemplate = function(url, callback) {
+let getTemplate = (url, callback) => {
 	if (s.cache[url]) {
 		if (typeof callback === 'function') {
 			return callback(s.cache[url]);
 		}
 	}
 
-	$.get(url, function(data) {
+	$.get(url, data => {
 		s.cache[url] = data;
 
 		if (typeof callback === 'function') {
@@ -30,13 +29,11 @@ var getTemplate = function(url, callback) {
 };
 
 // Render the view
-var render = function(html) {
-	s.container.empty().append(html);
-};
+let render = html => s.container.empty().append(html);
 
 // Load view
-var load = function(view, callback) {
-	getTemplate(view, function(html) {
+let load = (view, callback) => {
+	getTemplate(view, html => {
 		render(html);
 
 		if (typeof callback === 'function') {
@@ -46,19 +43,19 @@ var load = function(view, callback) {
 };
 
 // Load view with transition
-var loadTransition = function(view, customRender, callback) {
+let loadTransition = (view, customRender, callback) => {
 
 	// Reset animation classes and hide view
 	s.container.removeClass('view-in view-out');
 
 	// Hide view and wait for animation to end
 	s.container.addClass('view-out');
-	s.container.onCSSAnimationEnd(function() {
+	s.container.onCSSAnimationEnd(() => {
 
 		// Make it really hidden
 
 		// Do things before showing new view
-		getTemplate(view, function(html) {
+		getTemplate(view, html => {
 
 			// Use the custom function to render view
 			if (typeof customRender === 'function') {
@@ -69,7 +66,7 @@ var loadTransition = function(view, customRender, callback) {
 
 			// Start showing new view
 			s.container.addClass('view-in');
-			s.container.onCSSAnimationEnd(function() {
+			s.container.onCSSAnimationEnd(() => {
 
 				s.container.removeClass('view-in view-out');
 
@@ -83,18 +80,18 @@ var loadTransition = function(view, customRender, callback) {
 };
 
 // Render HTML template using Mustache and view data
-var renderQuestion = function(template, view, callback) {
-	loadTransition(template, function(html) {
-		var output = Mustache.render(html, view);
+let renderQuestion = (template, view, callback) => {
+	loadTransition(template, html => {
+		let output = Mustache.render(html, view);
 		render(output);
 	}, callback);
 };
 
 module.exports = {
-	init: init,
-	getTemplate: getTemplate,
-	load: load,
-	render: render,
-	renderQuestion: renderQuestion,
-	loadTransition: loadTransition
+	init,
+	getTemplate,
+	load,
+	render,
+	renderQuestion,
+	loadTransition
 };
