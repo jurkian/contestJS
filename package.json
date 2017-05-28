@@ -32,6 +32,10 @@
     "wiredep": "^4.0.0"
   },
   "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module"
+    },
     "env": {
       "es6": true,
       "node": true,
