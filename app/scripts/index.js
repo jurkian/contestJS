@@ -1,13 +1,11 @@
-let $ = require('jquery'),
-	Page = require('page'),
-	Route = require('./route.js'),
-	Popup = require('./popup.js'),
-	View = require('./view.js'),
-	Tools = require('./tools.js');
+import Page from 'page';
+import Route from './lib/route';
+import Popup from './lib/popup';
+import View from './lib/view';
+import Tools from './lib/tools';
 
 // Run the game if all assets are loaded
-let init = () => {
-
+$(() => {
 	// Settings
 	// ...
 
@@ -43,6 +41,4 @@ let init = () => {
 	// Not found
 	Page('*', Route.notFound);
 	Page();
-};
-
-$(window).on('load', init);
+});

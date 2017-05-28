@@ -1,7 +1,7 @@
-let $ = require('jquery'),
-	Mustache = require('mustache');
+import Mustache from 'mustache';
+import './jquery.oncssanimationend';
 
-require('./jquery.oncssanimationend.js');
+let View = {};
 
 // Settings
 let s = {
@@ -9,10 +9,10 @@ let s = {
 	cache: {}
 };
 
-let init = container => s.container = container;
+View.init = container => s.container = container;
 
 // Get HTML template
-let getTemplate = (url, callback) => {
+View.getTemplate = (url, callback) => {
 	if (s.cache[url]) {
 		if (typeof callback === 'function') {
 			return callback(s.cache[url]);
@@ -29,12 +29,12 @@ let getTemplate = (url, callback) => {
 };
 
 // Render the view
-let render = html => s.container.empty().append(html);
+View.render = html => s.container.empty().append(html);
 
 // Load view
-let load = (view, callback) => {
-	getTemplate(view, html => {
-		render(html);
+View.load = (view, callback) => {
+	View.getTemplate(view, html => {
+		View.render(html);
 
 		if (typeof callback === 'function') {
 			callback();
@@ -43,7 +43,7 @@ let load = (view, callback) => {
 };
 
 // Load view with transition
-let loadTransition = (view, customRender, callback) => {
+View.loadTransition = (view, customRender, callback) => {
 
 	// Reset animation classes and hide view
 	s.container.removeClass('view-in view-out');
@@ -55,13 +55,13 @@ let loadTransition = (view, customRender, callback) => {
 		// Make it really hidden
 
 		// Do things before showing new view
-		getTemplate(view, html => {
+		View.getTemplate(view, html => {
 
 			// Use the custom function to render view
 			if (typeof customRender === 'function') {
 				customRender(html);
 			} else {
-				render(html);
+				View.render(html);
 			}
 
 			// Start showing new view
@@ -80,18 +80,11 @@ let loadTransition = (view, customRender, callback) => {
 };
 
 // Render HTML template using Mustache and view data
-let renderQuestion = (template, view, callback) => {
-	loadTransition(template, html => {
+View.renderQuestion = (template, view, callback) => {
+	View.loadTransition(template, html => {
 		let output = Mustache.render(html, view);
-		render(output);
+		View.render(output);
 	}, callback);
 };
 
-module.exports = {
-	init,
-	getTemplate,
-	load,
-	render,
-	renderQuestion,
-	loadTransition
-};
+export default View;

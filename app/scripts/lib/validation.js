@@ -1,8 +1,9 @@
-let $ = require('jquery'),
-	jqueryValidation = require('jquery-validation'),
-	Page = require('page'),
-	Popup = require('./popup.js'),
-	Tools = require('./tools.js');
+import jqueryValidation from 'jquery-validation';
+import Page from 'page';
+import Popup from './popup';
+import Tools from './tools';
+
+let Validation = {};
 
 // Validate answers
 let isAnswersValid = () => {
@@ -34,7 +35,7 @@ let handleSubmit = form => {
 };
 
 // Questions and form validation
-let activate = form => {
+Validation.activate = form => {
 	$(form).validate({
 		rules: {
 			name: {
@@ -84,6 +85,4 @@ let activate = form => {
 	});
 };
 
-module.exports = {
-	activate
-};
+export default Validation;

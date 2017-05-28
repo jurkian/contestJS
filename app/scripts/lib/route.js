@@ -1,42 +1,44 @@
-let View = require('./view.js'),
-	Popup = require('./popup.js'),
-	Questions = require('./questions.js');
+import View from './view';
+import Popup from './popup';
+import Questions from './questions';
 
-let init = (ctx, next) => {
+let Route = {};
+
+Route.init = (ctx, next) => {
 	next();
 };
 
-let intro = () => {
+Route.intro = () => {
 	View.loadTransition('/views/intro.html');
 };
 
-let prizes = () => {
+Route.prizes = () => {
 	View.loadTransition('/views/prizes.html');
 };
 
-let rules = () => {
+Route.rules = () => {
 	View.loadTransition('/views/rules.html');
 };
 
-let help = () => {
+Route.help = () => {
 	View.loadTransition('/views/help.html');
 };
 
-let about = () => {
+Route.about = () => {
 	Popup.showTpl('/views/popup/about.html');
 };
 
-let contact = () => {
+Route.contact = () => {
 	Popup.showTpl('/views/popup/contact.html');
 };
 
-let thankyou = () => {
+Route.thankyou = () => {
 	View.loadTransition('/views/intro.html');
 	Popup.showTpl('/views/popup/thank-you.html');
 	Questions.reset();
 };
 
-let question = (ctx, next) => {
+Route.question = (ctx, next) => {
 	let urlId = parseInt(ctx.params.id, 10);
 
 	Questions.getCurrent(urlId, data => {
@@ -46,17 +48,6 @@ let question = (ctx, next) => {
 	});
 };
 
-let notFound = () => {};
+Route.notFound = () => {};
 
-module.exports = {
-	init,
-	intro,
-	prizes,
-	rules,
-	help,
-	about,
-	contact,
-	thankyou,
-	question,
-	notFound
-};
+export default Route;

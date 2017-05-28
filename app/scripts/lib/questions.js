@@ -1,6 +1,7 @@
-let $ = require('jquery'),
-	Validation = require('./validation.js'),
-	Tools = require('./tools.js');
+import Validation from './validation';
+import Tools from './tools';
+
+let Questions = {};
 
 // If Local Storage is empty, get questions from API
 // Store them in LS to avoid unnecessary HTTP calls
@@ -26,7 +27,7 @@ let getAll = callback => {
 
 // Make sure that questions are loaded in LS
 // And return the current question's data
-let getCurrent = (urlId, callback) => {
+Questions.getCurrent = (urlId, callback) => {
 
 	if (!isNaN(urlId)) {
 		getAll(data => {
@@ -164,7 +165,7 @@ let handleFormView = contestAnswers => {
 
 // Activate question views
 // make answers clickable, enable autocomplete and save
-let activate = (type, questionNumber) => {
+Questions.activate = (type, questionNumber) => {
 
 	// Load the answers
 	let contestAnswers = Tools.loadLS('contest_answers') || {};
@@ -177,13 +178,9 @@ let activate = (type, questionNumber) => {
 };
 
 // Remove all questions and answers data from LS
-let reset = () => {
+Questions.reset = () => {
 	localStorage.setItem('contest_answers', '');
 	localStorage.setItem('contest_questions', '');
 };
 
-module.exports = {
-	getCurrent,
-	activate,
-	reset
-};
+export default Questions;

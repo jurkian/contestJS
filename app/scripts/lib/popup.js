@@ -1,7 +1,7 @@
-let $ = require('jquery'),
-	View = require('./view.js');
+import View from './view';
+import './jquery.oncssanimationend';
 
-require('./jquery.oncssanimationend.js');
+let Popup = {};
 
 // Settings
 let s = {
@@ -15,7 +15,7 @@ let s = {
 let popupBtn = {},
 	popupContent = {};
 
-let close = callback => {
+Popup.close = callback => {
 
 	// Remove opened class and wait for transition to end
 	s.popupOverlayEl.removeClass(s.openedClass);
@@ -40,7 +40,7 @@ let close = callback => {
 	}
 };
 
-let show = () => {
+Popup.show = () => {
 
 	s.popupOverlayEl.removeClass('visuallyhidden');
 	s.popupEl.removeClass('visuallyhidden');
@@ -51,7 +51,7 @@ let show = () => {
 
 };
 
-let showTpl = template => {
+Popup.showTpl = template => {
 
 	// Close any open popups before showing new one
 	close(() => {
@@ -65,7 +65,7 @@ let showTpl = template => {
 	});
 };
 
-let init = config => {
+Popup.init = config => {
 	s = config;
 
 	// Set local vars
@@ -90,9 +90,4 @@ let init = config => {
 	});
 };
 
-module.exports = {
-	init,
-	show,
-	showTpl,
-	close
-};
+export default Popup;

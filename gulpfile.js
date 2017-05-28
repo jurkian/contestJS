@@ -26,7 +26,7 @@ gulp.task('styles', () => {
 
 gulp.task('scripts', () => {
 	return browserify({
-		entries: ['app/scripts/main.js'],
+		entries: ['app/scripts/index.js'],
 		debug: true
 	})
 	.transform(babelify, {presets: ['es2015']})

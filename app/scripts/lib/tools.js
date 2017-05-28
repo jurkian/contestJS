@@ -1,12 +1,14 @@
-let Modernizr = require('modernizr');
+import Modernizr from './modernizr';
+
+let Tools = {};
 
 // Save as JSON
-let saveLS = (itemName, value) => {
+Tools.saveLS = (itemName, value) => {
 	localStorage.setItem(itemName, JSON.stringify(value));
 };
 
 // Load as JSON
-let loadLS = itemName => {
+Tools.loadLS = itemName => {
 	let data = localStorage.getItem(itemName);
 
 	if (data) {
@@ -17,15 +19,11 @@ let loadLS = itemName => {
 };
 
 // Detect features using Modernizr
-let isBrowserSupported = () => {
+Tools.isBrowserSupported = () => {
 	return Modernizr.hashchange && Modernizr.history && Modernizr.inputtypes &&
 		Modernizr.json && Modernizr.cssanimations && Modernizr.flexbox &&
 		Modernizr.fontface && Modernizr.mediaqueries && Modernizr.csstransforms &&
 		Modernizr.csstransitions && Modernizr.localstorage;
 };
 
-module.exports = {
-	saveLS,
-	loadLS,
-	isBrowserSupported
-};
+export default Tools;
