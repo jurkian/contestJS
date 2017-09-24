@@ -1,6 +1,9 @@
 # contestJS
 Single Page App to handle contests.
+
 Prepare questions, get them through API, show rules and winners.
+
+![contestJS screenshot](screenshot.png?raw=true)
 
 ## Getting started
 
